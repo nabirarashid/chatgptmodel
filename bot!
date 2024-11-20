@@ -1,0 +1,20 @@
+from openai import OpenAI
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
+role = ("You are a " + input("Enter the role of the chatbot: "))
+prompt = (input("Enter a prompt: "))
+
+#.env file contains the key and is not included here
+api = os.getenv("APIKEY")
+client = OpenAI(api_key = api) 
+completion = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": role},
+        {"role": "user", "content": prompt},
+    ]
+)
+message = completion.choices[0].message.content
+print (message)
